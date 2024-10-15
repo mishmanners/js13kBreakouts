@@ -11,3 +11,14 @@ export function control_player() {
         game.World.Signature[entity] |= Has.ControlPlayer;
     };
 }
+
+export function update_paddle_movement(game: Game, entity: Entity) {
+    let move = game.World.Move2D[entity];
+    move.Direction[0] = 0;
+
+    if (game.InputState["ArrowUp"]) {
+        move.Direction[1] = 1;
+    } else if (game.InputState["ArrowDown"]) {
+        move.Direction[1] = -1;
+    }
+}
