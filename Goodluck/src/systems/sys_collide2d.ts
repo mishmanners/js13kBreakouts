@@ -37,6 +37,23 @@ export function sys_collide2d(game: Game, delta: number) {
         check_collisions(dynamic_colliders[i], static_colliders, static_colliders.length);
         check_collisions(dynamic_colliders[i], dynamic_colliders, i);
     }
+
+    // Handle collisions for the pong game
+    for (let i = 0; i < dynamic_colliders.length; i++) {
+        let collider = dynamic_colliders[i];
+        for (let collision of collider.Collisions) {
+            let other = game.World.Collide2D[collision.Other];
+            if (other) {
+                // Handle ball and paddle collision
+                if (collider.Layers & Layer.Object && other.Layers & Layer.Object) {
+                    // Reverse ball direction
+                    let move = game.World.Move2D[collider.EntityId];
+                    move.Direction[0] = -move.Direction[0];
+                    move.Direction[1] = -move.Direction[1];
+                }
+            }
+        }
+    }
 }
 
 /**

@@ -18,6 +18,8 @@ export const enum Action {
     BallOutOfBounds,
     ContinuePlaying,
     BackToTitle,
+    PaddleHitBall,
+    BallScored,
 }
 
 export const enum PlayState {
@@ -53,6 +55,8 @@ const SOUND_LOSE = [
     0.42,
     0.16,
 ];
+const SOUND_PADDLE_HIT = [, , 1e3, , 0.03, 0.02, 1, 2, , , 940, 0.03, , , , , 0.2, 0.6, , 0.06];
+const SOUND_SCORE = [, , 90, , 0.01, 0.03, 4, , , , , , , 9, 50, 0.2, , 0.2, 0.01];
 
 export function dispatch(game: Game, action: Action, payload: unknown) {
     switch (action) {
@@ -122,6 +126,15 @@ export function dispatch(game: Game, action: Action, payload: unknown) {
         }
         case Action.BackToTitle: {
             game.PlayState = PlayState.Title;
+            break;
+        }
+        case Action.PaddleHitBall: {
+            zzfx(SOUND_PADDLE_HIT);
+            break;
+        }
+        case Action.BallScored: {
+            game.Score++;
+            zzfx(SOUND_SCORE);
             break;
         }
     }
